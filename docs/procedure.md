@@ -40,14 +40,17 @@ Botコンテナは外部(Discord)とGateway通信を行い、内部ネットワ�
 ```mermaid
 %%{init: {'theme': 'neutral', 'themeVariables': {'fontFamily': 'sans-serif'}}}%%
 graph LR
-    %% ノードの定義
-    User([👤 ユーザー]) --"チャット (2d6 / !history)"--> Discord[Discordサーバー]
-    Discord --"Gateway API"--> Bot[Botコンテナ]
-    
-    subgraph Host[Docker Host / Ubuntu]
-        direction TB
-        Bot --"読み書き (asyncpg)"--> DB[(PostgreSQLコンテナ)]
-        DB --"マウント"--> Vol[📂 永続化データ/Volume]
+    subgraph Whole[💻 システム全体構成]
+    style Whole fill:#fdfdfd,stroke:#999,stroke-width:2px,stroke-dasharray: 5 5
+        %% ノードの定義
+        User([👤 ユーザー]) --"チャット (2d6 / !history)"--> Discord[Discordサーバー]
+        Discord --"Gateway API"--> Bot[Botコンテナ]
+        
+        subgraph Host[Docker Host / Ubuntu]
+            direction LR
+            Bot --"読み書き (asyncpg)"--> DB[(PostgreSQL)]
+            DB --"マウント"--> Vol[📂 永続化データ/Volume]
+        end
     end
     
     %% スタイルの定義 (GitHubで見やすい配色)
@@ -56,6 +59,7 @@ graph LR
     classDef db fill:#4479A1,stroke:#333,stroke-width:2px,color:#fff
     classDef vol fill:#EAEAEA,stroke:#666,stroke-width:2px,stroke-dasharray: 5 5,color:#000
     classDef user fill:#FFF,stroke:#333,stroke-width:1px,color:#000
+    classDef host fill:#fff,stroke:#333,stroke-width:2px
 
     %% クラスの適用
     class Discord discord
@@ -63,6 +67,7 @@ graph LR
     class DB db
     class Vol vol
     class User user
+    class Host host
 ```
 
 ## 5. 事前準備
