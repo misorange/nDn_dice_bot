@@ -38,21 +38,31 @@
 Botコンテナは外部(Discord)とGateway通信を行い、内部ネットワークを通じてDBコンテナへデータを永続化する。
 
 ```mermaid
-%%{init: {'theme': 'neutral'}}%%
+%%{init: {'theme': 'neutral', 'themeVariables': {'fontFamily': 'sans-serif'}}}%%
 graph LR
-    User[ユーザー] --"チャット(2d6/!history)"--> Discord[Discordサーバー]
+    %% ノードの定義
+    User([👤 ユーザー]) --"チャット (2d6 / !history)"--> Discord[Discordサーバー]
     Discord --"Gateway API"--> Bot[Botコンテナ]
     
     subgraph Host[Docker Host / Ubuntu]
         direction TB
         Bot --"読み書き (asyncpg)"--> DB[(PostgreSQLコンテナ)]
-        DB --"マウント"--> Vol[永続化データ/Volume]
+        DB --"マウント"--> Vol[📂 永続化データ/Volume]
     end
     
-    %% スタイル定義
-    style Bot fill:#f9f,stroke:#333,color:#000
-    style DB fill:#bbf,stroke:#333,color:#000
-    style Vol fill:#ddd,stroke:#333,color:#000,stroke-dasharray: 5 5
+    %% スタイルの定義 (GitHubで見やすい配色)
+    classDef discord fill:#5865F2,stroke:#333,stroke-width:2px,color:#fff
+    classDef bot fill:#FF99CC,stroke:#333,stroke-width:2px,color:#000
+    classDef db fill:#4479A1,stroke:#333,stroke-width:2px,color:#fff
+    classDef vol fill:#EAEAEA,stroke:#666,stroke-width:2px,stroke-dasharray: 5 5,color:#000
+    classDef user fill:#FFF,stroke:#333,stroke-width:1px,color:#000
+
+    %% クラスの適用
+    class Discord discord
+    class Bot bot
+    class DB db
+    class Vol vol
+    class User user
 ```
 
 ## 5. 事前準備
