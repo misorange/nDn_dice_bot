@@ -5,3 +5,19 @@ services:
     restart: always
     env_file:
       - .env
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15-alpine
+    container_name: discord-db
+    restart: always
+    environment:
+      POSTGRES_USER: bot_user
+      POSTGRES_PASSWORD: bot_password
+      POSTGRES_DB: dice_logs
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
