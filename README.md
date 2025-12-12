@@ -1,7 +1,7 @@
 # Dockerized Discord Dice Bot
 
-Docker Composeで動作する、シンプルなDiscord用ダイスBotです。
-授業課題の成果物として作成しました。
+Docker Composeで動作する、シンプルなDiscord用ダイスBotのソースコードです。
+授業課題の提出用として作成しました。
 
 ## 機能
 * `ndndice` 構文（例: `2d6`, `1d100`）に反応してダイスを振ります。
